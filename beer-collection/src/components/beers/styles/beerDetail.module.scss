@@ -1,0 +1,28 @@
+@import "../../../styles/grid";
+
+.wrapDescription {
+  display: flex;
+  flex-flow: row wrap;
+
+  @include dist-media(
+    $props: (
+      (gap, 2, 4),
+      (margin-top, 6, 6),
+    )
+  );
+
+  > * {
+    flex: 1;
+    min-width: 320px;
+  }
+}
+
+.imgWrp {
+  background-color: var(--color-grey-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  width: 100%;
+  height: fit-content;
+}
