@@ -1,8 +1,8 @@
 "use client";
 
-import BeersList from "@/components/beers/beersList";
-import { getFavoriteBeers, getJsonData } from "@/utils";
 import { useEffect, useState } from "react";
+import { getFavoriteBeers, getJsonData } from "../../utils";
+import BeersList from "../../components/beers/beersList";
 
 export default function FavoriteBeers() {
   const [beers, setBeers] = useState<Beer[]>();

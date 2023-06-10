@@ -1,8 +1,8 @@
 "use client";
 
-import { addFavoriteBeer, isFavoriteBeer, removeFavoriteBeer } from "@/utils";
 import { ChangeEvent, useEffect, useState } from "react";
 import styles from "./styles/favoriteBeer.module.scss";
+import { addFavoriteBeer, removeFavoriteBeer } from "../../utils";
 
 type FavoriteBeerProps = {
   beer: Beer;
@@ -34,4 +34,7 @@ export default function FavoriteBeer({ beer }: FavoriteBeerProps) {
       )}
     </label>
   );
+}
+function isFavoriteBeer(id: number): import("react").SetStateAction<boolean> {
+  throw new Error("Function not implemented.");
 }

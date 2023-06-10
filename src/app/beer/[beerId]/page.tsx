@@ -1,7 +1,7 @@
-import BeerDetail from "@/components/beers/beerDetail";
-import Comments from "@/components/beers/comments";
-import { getJsonData } from "@/utils";
 import { Metadata } from "next";
+import { getJsonData } from "../../../utils";
+import BeerDetail from "../../../components/beers/beerDetail";
+import Comments from "../../../components/beers/comments";
 
 type BeerProps = {
   params: {

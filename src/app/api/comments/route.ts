@@ -1,6 +1,6 @@
-import { getJsonData, sendJsonData } from "@/utils";
 import { NextResponse } from "next/server";
 import { limiter } from "../config/limiter";
+import { getJsonData, sendJsonData } from "../../../utils";
 
 export async function GET(request: Request) {
   const origin = request.headers.get("origin");

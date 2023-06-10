@@ -1,9 +1,10 @@
 "use client";
-import BeersList from "@/components/beers/beersList";
-import { APP_ROUTES } from "@/constants/appRoutes";
-import { createQueryString, getJsonData } from "@/utils";
+
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState, MouseEvent } from "react";
+import { createQueryString, getJsonData } from "../../utils";
+import { APP_ROUTES } from "../../constants/appRoutes";
+import BeersList from "../../components/beers/beersList";
 
 enum Key {
   Term = "term",

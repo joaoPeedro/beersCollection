@@ -1,6 +1,5 @@
-import BeersList from "@/components/beers/beersList";
-import { getJsonData } from "@/utils";
-import React from "react";
+import BeersList from "../../components/beers/beersList";
+import { getJsonData } from "../../utils";
 
 export default async function Beers() {
   const data = await getJsonData<Beer[]>({

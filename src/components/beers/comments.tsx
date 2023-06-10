@@ -1,8 +1,8 @@
 "use client";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { getJsonData, sendJsonData } from "@/utils";
 import styles from "./styles/comments.module.scss";
 import CommentsList from "./commentsList";
+import { getJsonData, sendJsonData } from "../../utils";
 
 type CommentsProps = {
   beerId: number;
