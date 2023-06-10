@@ -1,0 +1,15 @@
+.containerAvatar {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  min-width: 160px;
+
+  > picture {
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    overflow: hidden;
+    user-select: none;
+    border-radius: 100%;
+  }
+}
