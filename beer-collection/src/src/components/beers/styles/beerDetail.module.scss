@@ -1,0 +1,47 @@
+@import "../../../styles/grid";
+
+.containerDescription {
+  display: flex;
+  flex-flow: row wrap;
+
+  @include dist-media(
+    $props: (
+      (gap, 2, 4),
+      (margin-top, 8, 8),
+    )
+  );
+
+  > * {
+    flex: 1;
+    min-width: 320px;
+  }
+}
+
+.imgWrp {
+  position: relative;
+  background-color: var(--color-grey-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  width: 100%;
+  height: fit-content;
+
+  > img {
+    @include dist-media(
+      $props: (
+        (margin-top, -8, -8),
+      )
+    );
+  }
+}
+
+.description {
+  @include dist-media(
+    $props: (
+      (padding, 2, 2),
+      (padding-right, 2, 6),
+      (padding-bottom, 2, 6),
+    )
+  );
+}

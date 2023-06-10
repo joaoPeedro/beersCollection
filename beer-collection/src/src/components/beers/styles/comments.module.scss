@@ -1,0 +1,43 @@
+@import "../../../styles/grid";
+
+.containerComments {
+  background-color: var(--color-grey-l2);
+
+  @include dist-media(
+    $props: (
+      (padding, 2, 4),
+      (padding-top, 2, 6),
+      (margin-top, 2, -4),
+      (margin-right, 0, 4),
+      (margin-left, 0, 4),
+    )
+  );
+
+  .commentsItems {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-grey-l4);
+
+    @media screen and (min-width: $break_desktop) {
+      flex-direction: row;
+    }
+    @include dist-media(
+      $props: (
+        (margin-top, 3, 3),
+        (padding, 2, 3),
+        (gap, 0, 4),
+      )
+    );
+  }
+}
+
+.addComment {
+  display: flex;
+  flex-direction: column;
+
+  @include dist-media(
+    $props: (
+      (gap, 1, 1),
+    )
+  );
+}
