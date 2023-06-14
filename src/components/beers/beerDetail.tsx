@@ -19,7 +19,7 @@ export default function BeerDetail({ beer }: BeerDetailProps) {
             alt={beer.name}
             width="500"
             height="500"
-            style={{ width: "fit-content" }}
+            style={{ width: "auto" }}
           />
         </picture>
         <div className={styles.description}>

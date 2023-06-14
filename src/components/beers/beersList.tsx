@@ -27,7 +27,7 @@ export default function BeersList({ beers }: BeersListProps) {
                   alt={beer.name}
                   width="500"
                   height="500"
-                  style={{ width: "fit-content", maxHeight: "320px" }}
+                  style={{ width: "auto", maxHeight: "320px" }}
                 />
               </picture>
             </Link>
