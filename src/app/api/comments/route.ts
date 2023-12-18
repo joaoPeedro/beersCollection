@@ -16,11 +16,11 @@ export async function GET(request: Request) {
     });
   }
 
-  // Verificar se a origem da solicitação é da sua VPN
-  const isVPNRequest = origin === "http://93.176.86.249" || origin === "https://93.176.86.249";
+  // Verificar se a origem da solicitação é do IP específico
+  const isAllowedOrigin = origin === "http://93.176.86.249" || origin === "https://93.176.86.249";
 
-  // Adicionar cabeçalhos CORS apenas se a origem for da sua VPN
-  const corsHeaders: Record<string, string> = isVPNRequest
+  // Adicionar cabeçalhos CORS apenas se a origem for do IP específico
+  const corsHeaders: Record<string, string> = isAllowedOrigin
     ? {
         "Access-Control-Allow-Origin": origin || "",
         "Access-Control-Allow-Methods": "GET",
