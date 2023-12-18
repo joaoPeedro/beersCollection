@@ -16,10 +16,10 @@ export async function GET(request: Request) {
     });
   }
 
-  // Verificar se a origem da solicitação é do IP específico
-  const isAllowedOrigin = origin === "http://93.176.86.249" || origin === "https://93.176.86.249";
+  // Verificar se a origem da solicitação está presente e é do IP específico
+  const isAllowedOrigin = origin && (origin === "http://93.176.86.249" || origin === "https://93.176.86.249");
 
-  // Adicionar cabeçalhos CORS apenas se a origem for do IP específico
+  // Adicionar cabeçalhos CORS apenas se a origem for válida
   const corsHeaders: Record<string, string> = isAllowedOrigin
     ? {
         "Access-Control-Allow-Origin": origin || "",
@@ -31,7 +31,7 @@ export async function GET(request: Request) {
   // Verificar se é uma solicitação OPTIONS
   if (request.method === "OPTIONS") {
     return new NextResponse(null, {
-      status: 200,
+      status: isAllowedOrigin ? 200 : 403, // Permitir apenas se a origem for válida
       headers: corsHeaders,
     });
   }
