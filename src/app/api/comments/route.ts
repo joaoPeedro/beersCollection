@@ -1,9 +1,15 @@
 import { NextResponse } from "next/server";
 import { limiter } from "../config/limiter";
 import { getJsonData, sendJsonData } from "../../../utils";
+import cors from "cors";
+
+const corsMiddleware = cors({
+  origin: "http://93.176.86.249", // Ajuste para o seu IP específico
+  methods: ["GET"],
+  allowedHeaders: ["Content-Type"],
+});
 
 export async function GET(request: Request) {
-  const origin = request.headers.get("origin");
   const TokensRemaining = await limiter.removeTokens(1);
 
   if (TokensRemaining < 0) {
@@ -16,31 +22,14 @@ export async function GET(request: Request) {
     });
   }
 
-  // Verificar se a origem da solicitação está presente e é do IP específico
-  const isAllowedOrigin = origin && (origin === "http://93.176.86.249" || origin === "https://93.176.86.249");
-
-  // Adicionar cabeçalhos CORS apenas se a origem for válida
-  const corsHeaders: Record<string, string> = isAllowedOrigin
-    ? {
-        "Access-Control-Allow-Origin": origin || "",
-        "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type",
-      }
-    : {};
-
-  // Verificar se é uma solicitação OPTIONS
-  if (request.method === "OPTIONS") {
-    return new NextResponse(null, {
-      status: isAllowedOrigin ? 200 : 403, // Permitir apenas se a origem for válida
-      headers: corsHeaders,
-    });
-  }
+  // Usar o middleware CORS
+  corsMiddleware(request, request.raw);
 
   const comments = await getJsonData<Beer[]>({
     endPoint: `${process.env.COMMENTS_MOCK_API_GATEWAY}`,
   });
 
-  return NextResponse.json(comments, { headers: corsHeaders });
+  return NextResponse.json(comments);
 }
 
 export async function POST(request: Request) {
