@@ -4,7 +4,6 @@ import { getJsonData, sendJsonData } from "../../../utils";
 
 export async function GET(request: Request) {
   const origin = request.headers.get("origin");
-
   const TokensRemaining = await limiter.removeTokens(1);
 
   if (TokensRemaining < 0) {
@@ -12,17 +11,28 @@ export async function GET(request: Request) {
       status: 429,
       statusText: "Too Many Requests",
       headers: {
-        "Access-Control-Allow-Origin": "93.176.86.249",
         "Content-Type": "text/plain",
       },
     });
   }
 
+  // Verificar se a origem da solicitação é da sua VPN
+  const isVPNRequest = origin === "http://93.176.86.249" || origin === "https://93.176.86.249";
+
+  // Adicionar cabeçalhos CORS apenas se a origem for da sua VPN
+  const corsHeaders = isVPNRequest
+    ? {
+        "Access-Control-Allow-Origin": origin,
+        "Access-Control-Allow-Methods": "GET",
+        "Access-Control-Allow-Headers": "Content-Type",
+      }
+    : {};
+
   const comments = await getJsonData<Beer[]>({
     endPoint: `${process.env.COMMENTS_MOCK_API_GATEWAY}`,
   });
 
-  return NextResponse.json(comments);
+  return NextResponse.json(comments, { headers: corsHeaders });
 }
 
 export async function POST(request: Request) {
