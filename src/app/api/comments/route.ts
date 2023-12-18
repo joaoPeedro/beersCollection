@@ -20,13 +20,13 @@ export async function GET(request: Request) {
   const isVPNRequest = origin === "http://93.176.86.249" || origin === "https://93.176.86.249";
 
   // Adicionar cabeçalhos CORS apenas se a origem for da sua VPN
-  const corsHeaders = isVPNRequest
-    ? {
-        "Access-Control-Allow-Origin": origin,
-        "Access-Control-Allow-Methods": "GET",
-        "Access-Control-Allow-Headers": "Content-Type",
-      }
-    : {};
+  const corsHeaders: Record<string, string> = isVPNRequest
+  ? {
+      "Access-Control-Allow-Origin": origin || "", // Certifique-se de fornecer um valor padrão se origin for nulo
+      "Access-Control-Allow-Methods": "GET",
+      "Access-Control-Allow-Headers": "Content-Type",
+    }
+  : {};
 
   const comments = await getJsonData<Beer[]>({
     endPoint: `${process.env.COMMENTS_MOCK_API_GATEWAY}`,
