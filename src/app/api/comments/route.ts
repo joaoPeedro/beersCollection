@@ -21,12 +21,20 @@ export async function GET(request: Request) {
 
   // Adicionar cabeçalhos CORS apenas se a origem for da sua VPN
   const corsHeaders: Record<string, string> = isVPNRequest
-  ? {
-      "Access-Control-Allow-Origin": origin || "", // Certifique-se de fornecer um valor padrão se origin for nulo
-      "Access-Control-Allow-Methods": "GET",
-      "Access-Control-Allow-Headers": "Content-Type",
-    }
-  : {};
+    ? {
+        "Access-Control-Allow-Origin": origin || "",
+        "Access-Control-Allow-Methods": "GET",
+        "Access-Control-Allow-Headers": "Content-Type",
+      }
+    : {};
+
+  // Verificar se é uma solicitação OPTIONS
+  if (request.method === "OPTIONS") {
+    return new NextResponse(null, {
+      status: 200,
+      headers: corsHeaders,
+    });
+  }
 
   const comments = await getJsonData<Beer[]>({
     endPoint: `${process.env.COMMENTS_MOCK_API_GATEWAY}`,
