@@ -3,6 +3,7 @@ import { limiter } from "../config/limiter";
 import { getJsonData, sendJsonData } from "../../../utils";
 import cors from "cors";
 
+// Criar uma instância do middleware CORS com as configurações desejadas
 const corsMiddleware = cors({
   origin: "http://93.176.86.249", // Ajuste para o seu IP específico
   methods: ["GET"],
@@ -22,8 +23,11 @@ export async function GET(request: Request) {
     });
   }
 
-  // Usar o middleware CORS
-  corsMiddleware(request, request.raw);
+  // Criar um objeto de resposta vazio, pois o método `corsMiddleware` espera um terceiro argumento
+  const response = new NextResponse(null);
+
+  // Usar o middleware CORS passando os três argumentos necessários
+  corsMiddleware(request, response, () => {});
 
   const comments = await getJsonData<Beer[]>({
     endPoint: `${process.env.COMMENTS_MOCK_API_GATEWAY}`,
