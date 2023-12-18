@@ -12,7 +12,7 @@ export async function GET(request: Request) {
       status: 429,
       statusText: "Too Many Requests",
       headers: {
-        "Access-Control-Allow-Origin": origin || "*",
+        "Access-Control-Allow-Origin": "93.176.86.249",
         "Content-Type": "text/plain",
       },
     });
