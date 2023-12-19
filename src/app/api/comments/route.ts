@@ -29,17 +29,9 @@ export async function GET(request: Request) {
 
   // Adicionar cabeçalhos CORS apenas se a origem for do IP específico
   if (isAllowedOrigin) {
-    res.setHeader('Access-Control-Allow-Origin', origin || '');
-    res.setHeader('Access-Control-Allow-Methods', 'GET');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return res;
   }
-
-  if (req.method === 'OPTIONS') {
-    // Responder à solicitação OPTIONS diretamente
-    return res.status(isAllowedOrigin ? 200 : 403).end();
-  }
-
-  return res;
+  
 }
 
 export async function POST(request: Request) {
