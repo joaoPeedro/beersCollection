@@ -1,7 +1,6 @@
-// pages/api/comments.ts
-import { NextApiResponse } from 'next';
-import { limiter } from '../config/limiter';
-import { getJsonData } from '../../../utils';
+import { NextResponse } from "next/server";
+import { limiter } from "../config/limiter";
+import { getJsonData, sendJsonData } from "../../../utils";
 
 export async function GET(request: Request) {
   const origin = request.headers.get("origin");
@@ -23,7 +22,24 @@ export async function GET(request: Request) {
     endPoint: `${process.env.COMMENTS_MOCK_API_GATEWAY}`,
   });
 
-  return NextResponse.json(comments);
+  const res = NextResponse.json(comments);
+
+    // Verificar se a origem da solicitação é do IP específico
+  const isAllowedOrigin = origin === 'http://93.176.86.249' || origin === 'https://93.176.86.249';
+
+  // Adicionar cabeçalhos CORS apenas se a origem for do IP específico
+  if (isAllowedOrigin) {
+    res.setHeader('Access-Control-Allow-Origin', origin || '');
+    res.setHeader('Access-Control-Allow-Methods', 'GET');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  }
+
+  if (req.method === 'OPTIONS') {
+    // Responder à solicitação OPTIONS diretamente
+    return res.status(isAllowedOrigin ? 200 : 403).end();
+  }
+
+  return res;
 }
 
 export async function POST(request: Request) {
