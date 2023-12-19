@@ -1,39 +1,45 @@
-import { NextResponse } from "next/server";
-import { limiter } from "../config/limiter";
-import { getJsonData, sendJsonData } from "../../../utils";
-import cors from "cors";
-
-// Criar uma instância do middleware CORS com as configurações desejadas
-const corsMiddleware = cors({
-  origin: "http://93.176.86.249", // Ajuste para o seu IP específico
-  methods: ["GET"],
-  allowedHeaders: ["Content-Type"],
-});
+// pages/api/comments.ts
+import { NextApiResponse } from 'next';
+import { limiter } from '../config/limiter';
+import { getJsonData } from '../../../utils';
 
 export async function GET(request: Request) {
+  const origin = request.headers.get("origin");
+
   const TokensRemaining = await limiter.removeTokens(1);
+
+   const isAllowedOrigin = origin === 'http://93.176.86.249' || origin === 'https://93.176.86.249';
 
   if (TokensRemaining < 0) {
     return new NextResponse(null, {
       status: 429,
       statusText: "Too Many Requests",
       headers: {
+        "Access-Control-Allow-Origin": origin || "*",
         "Content-Type": "text/plain",
       },
     });
   }
 
-  // Criar um objeto de resposta vazio, pois o método `corsMiddleware` espera um terceiro argumento
-  const response = new NextResponse(null);
-
-  // Usar o middleware CORS passando os três argumentos necessários
-  corsMiddleware(request, response, () => {});
+  
 
   const comments = await getJsonData<Beer[]>({
     endPoint: `${process.env.COMMENTS_MOCK_API_GATEWAY}`,
   });
+const res = NextResponse.json(comments)
+    // Adicionar cabeçalhos CORS apenas se a origem for do IP específico
+  if (isAllowedOrigin) {
+    res.setHeader('Access-Control-Allow-Origin', origin || '');
+    res.setHeader('Access-Control-Allow-Methods', 'GET');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  }
 
-  return NextResponse.json(comments);
+  if (req.method === 'OPTIONS') {
+    // Responder à solicitação OPTIONS diretamente
+    return res.status(isAllowedOrigin ? 200 : 403).end();
+  }
+
+  return res;
 }
 
 export async function POST(request: Request) {
