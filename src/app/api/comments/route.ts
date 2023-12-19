@@ -11,6 +11,8 @@ const allowedOrigins = [
 export async function GET(request: Request) {
   const origin = request.headers.get("origin");
 
+  console.log({request})
+
   const TokensRemaining = await limiter.removeTokens(1);
 
   if (TokensRemaining < 0) {
