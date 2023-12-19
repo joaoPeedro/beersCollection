@@ -2,6 +2,12 @@ import { getJsonData, sendJsonData } from "@/utils";
 import { NextResponse } from "next/server";
 import { limiter } from "../config/limiter";
 
+const allowedOrigins = [
+  "http://93.176.86.249", 
+  "https://93.176.86.249" 
+];
+
+
 export async function GET(request: Request) {
   const origin = request.headers.get("origin");
 
@@ -18,11 +24,19 @@ export async function GET(request: Request) {
     });
   }
 
+  /*
   const comments = await getJsonData<Beer[]>({
     endPoint: `${process.env.COMMENTS_MOCK_API_GATEWAY}`,
   });
+  */
 
-  return NextResponse.json(comments);
+  
+  if (allowedOrigins.includes(origin)) {
+      res.headers.append('Access-Control-Allow-Origin', origin);
+  }
+
+  const res = NextResponse.next()
+  //return NextResponse.json(comments);
 }
 
 export async function POST(request: Request) {
