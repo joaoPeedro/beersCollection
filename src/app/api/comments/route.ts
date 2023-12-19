@@ -31,7 +31,7 @@ export async function GET(request: Request) {
   */
 
   
-  if (allowedOrigins.includes(origin)) {
+  if (allowedOrigins.includes(origin || '')) {
       res.headers.append('Access-Control-Allow-Origin', origin);
   }
 
