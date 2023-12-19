@@ -33,7 +33,7 @@ export async function GET(request: Request) {
   const res = NextResponse.next()
   
   if (allowedOrigins.includes(origin || '')) {
-      res.headers.append('Access-Control-Allow-Origin', origin);
+      res.headers.append('Access-Control-Allow-Origin', origin || '');
   }
 
   //return NextResponse.json(comments);
