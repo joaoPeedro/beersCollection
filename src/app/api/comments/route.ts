@@ -8,8 +8,6 @@ export async function GET(request: Request) {
 
   const TokensRemaining = await limiter.removeTokens(1);
 
-   const isAllowedOrigin = origin === 'http://93.176.86.249' || origin === 'https://93.176.86.249';
-
   if (TokensRemaining < 0) {
     return new NextResponse(null, {
       status: 429,
@@ -21,25 +19,11 @@ export async function GET(request: Request) {
     });
   }
 
-  
-
   const comments = await getJsonData<Beer[]>({
     endPoint: `${process.env.COMMENTS_MOCK_API_GATEWAY}`,
   });
-const res = NextResponse.json(comments)
-    // Adicionar cabeçalhos CORS apenas se a origem for do IP específico
-  if (isAllowedOrigin) {
-    res.setHeader('Access-Control-Allow-Origin', origin || '');
-    res.setHeader('Access-Control-Allow-Methods', 'GET');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  }
 
-  if (req.method === 'OPTIONS') {
-    // Responder à solicitação OPTIONS diretamente
-    return res.status(isAllowedOrigin ? 200 : 403).end();
-  }
-
-  return res;
+  return NextResponse.json(comments);
 }
 
 export async function POST(request: Request) {
