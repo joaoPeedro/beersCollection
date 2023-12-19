@@ -30,12 +30,12 @@ export async function GET(request: Request) {
   });
   */
 
+  const res = NextResponse.next()
   
   if (allowedOrigins.includes(origin || '')) {
       res.headers.append('Access-Control-Allow-Origin', origin);
   }
 
-  const res = NextResponse.next()
   //return NextResponse.json(comments);
 }
 
